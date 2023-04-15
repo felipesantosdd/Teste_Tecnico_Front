@@ -25,7 +25,7 @@ export default function Register() {
         resolver: yupResolver(formSchema)
     });
 
-    const onSubmitFunction = (data: any) => {
+    function onSubmitFunction(data: any) {
 
 
         if (data.passwordConfirm != data.password) {

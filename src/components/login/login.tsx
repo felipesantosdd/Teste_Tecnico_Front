@@ -22,8 +22,9 @@ export default function Login() {
         resolver: yupResolver(formSchema)
     });
 
-    const onSubmitFunction = (data: any) => console.log(data);
-
+    function onSubmitFunction(data: any) {
+        console.log(data)
+    }
     return (
         <div className={formStyle.formContainer} onSubmit={handleSubmit(onSubmitFunction)}>
 
