@@ -34,3 +34,12 @@ export interface ILoginRequest {
 export interface ILoginResponse {
 
 }
+
+export interface ValidationErrors {
+    email?: { message: string };
+    password?: { message: string };
+}
+
+export interface BodyProps {
+    children: ReactNode;
+}

@@ -1,7 +1,8 @@
-import { CSSProperties, useState, useEffect } from 'react';
+import { CSSProperties, useState, useEffect, ReactNode } from 'react';
 import body from '../../styles/body.module.scss'
+import { BodyProps } from '@/interfaces/interfaces';
 
-export function Body() {
+export default function Body({ children }: BodyProps) {
     const [numBubbles, setNumBubbles] = useState(0);
 
     useEffect(() => {
@@ -27,6 +28,7 @@ export function Body() {
                         <span key={index} style={style} />
                     ))}
                 </div>
+                {children}
             </div>
         </div>
     );

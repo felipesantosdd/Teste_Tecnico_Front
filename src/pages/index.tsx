@@ -1,11 +1,11 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import { Body } from '@/components/body/body'
+import Body from '@/components/body/body'
+import Login from '@/components/login/login'
 
-const inter = Inter({ subsets: ['latin'] })
 
-export default function Login() {
+export default function LoginPage() {
   return (
-    <Body></Body>
+    <Body>
+      <Login />
+    </Body>
   )
 }
