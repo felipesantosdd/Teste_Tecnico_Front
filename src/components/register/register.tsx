@@ -41,13 +41,13 @@ export default function Register() {
             <form className={formStyle.form} >
                 <span className={formStyle.title}>Registro</span>
                 <TextField variant="outlined" type="text" label='Primeiro Nome' {...register("firstName")} />
-                {errors?.firstName?.message && (<span className={formStyle.error}>{errors?.firstName?.message}</span>)}
+                {/* {errors?.firstName?.message && (<span className={formStyle.error}>{errors?.firstName?.message}</span>)} */}
                 <TextField variant="outlined" type="text" label='email' {...register("email")} />
-                {errors?.email?.message && (<span className={formStyle.error}>{errors?.email?.message}</span>)}
+                {/* {errors?.email?.message && (<span className={formStyle.error}>{errors?.email?.message}</span>)} */}
                 <TextField variant="outlined" type="password" label='password' {...register("password")} />
-                {errors?.password?.message && (<span className={formStyle.error}>{errors?.password?.message}</span>)}
+                {/* {errors?.password?.message && (<span className={formStyle.error}>{errors?.password?.message}</span>)} */}
                 <TextField variant="outlined" type="password" label='confime password' {...register("passwordConfirm")} />
-                {errors?.password?.message && (<span className={formStyle.error}>{errors?.password?.message}</span>)}
+                {/* {errors?.password?.message && (<span className={formStyle.error}>{errors?.password?.message}</span>)} */}
                 <Button variant="contained" type="submit">Enviar</Button>
             </form>
         </div >

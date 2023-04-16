@@ -31,9 +31,9 @@ export default function Login() {
             <form className={formStyle.form} style={{ height: "300px" }} >
                 <h2 className={formStyle.title}>Login</h2>
                 <TextField variant="outlined" type="text" label='email' {...register("email")} />
-                {errors?.email?.message && (<span className={formStyle.error}>{errors?.email?.message}</span>)}
+                {/* {errors?.email?.message && (<span className={formStyle.error}>{errors?.email?.message}</span>)} */}
                 <TextField variant="outlined" type="password" label='password' {...register("password")} />
-                {errors?.password?.message && (<span className={formStyle.error}>{errors?.password?.message}</span>)}
+                {/* {errors?.password?.message && (<span className={formStyle.error}>{errors?.password?.message}</span>)} */}
                 <Button variant="contained" type="submit">Enviar</Button>
             </form>
         </div >
