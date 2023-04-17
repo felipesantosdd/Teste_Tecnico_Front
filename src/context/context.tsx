@@ -1,29 +1,40 @@
-import { BubbleStyle, ContextProps, ProviderType } from "@/interfaces/interfaces";
+import { BubbleStyle, CatchErrorType, ContextProps, ILoginRequest, ProviderType, TryResponseType } from "@/interfaces/interfaces";
+import { loginRequest } from "@/pages/api/login";
 import { CSSProperties, createContext, useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { ErrorAlert, SuccessAlert } from "@/components/alert/alert";
+import { RegisterRequest } from "@/pages/api/register";
 
 
 
 export const Context = createContext<ContextProps>({} as ContextProps)
 
-
 export function Provider({ children }: ProviderType) {
-    const [bubbleStyles, setBubbleStyles] = useState<CSSProperties[]>([]);
 
-    function bubbles() {
-        const arr: CSSProperties[] = [];
+    const redirectTo = useRouter()
 
-        for (let i = 0; i < 30; i++) {
-            let randNum = Math.floor(Math.random() * 41) + 10;
-            arr.push({ "--i": randNum } as CSSProperties);
+    async function handleLogin(data: ILoginRequest) {
+        try {
+            const response: TryResponseType = await loginRequest(data)
+            localStorage.setItem('token', response.data.token)
+            redirectTo.push('/dashboard')
+        } catch (error: CatchErrorType | any) {
+            ErrorAlert(error.response.data.message)
         }
+    }
 
-        setBubbleStyles(arr)
-        console.log(bubbleStyles)
-        return arr
+    async function handleRegister(data: ILoginRequest) {
+        try {
+            const response: any = await RegisterRequest(data)
+            SuccessAlert('Cadastro concluído!')
+            redirectTo.push('/login')
+        } catch (error: CatchErrorType | any) {
+            ErrorAlert(error.response.data.message)
+        }
     }
 
     return (
-        <Context.Provider value={{ bubbleStyles, setBubbleStyles, bubbles }}>
+        <Context.Provider value={{ redirectTo, handleLogin, handleRegister }}>
             {children}
         </Context.Provider>
     );

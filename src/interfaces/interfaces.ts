@@ -1,9 +1,11 @@
+import { AxiosResponse } from "axios";
+import { NextRouter } from "next/router";
 import { CSSProperties, Dispatch, ReactNode, SetStateAction } from "react";
 
 export type ContextProps = {
-    bubbleStyles: CSSProperties[];
-    setBubbleStyles: Dispatch<SetStateAction<CSSProperties[]>>;
-    bubbles(): void;
+    redirectTo: NextRouter;
+    handleLogin(data: ILoginRequest): Promise<void>;
+    handleRegister(data: ILoginRequest): Promise<void>;
 };
 
 export type ProviderType = {
@@ -18,6 +20,24 @@ export type UserType = {
 export type BubbleStyle = {
     [key: string]: string
 };
+
+export type CatchErrorType = {
+    error: {
+        response: {
+            data: {
+                message: string
+            }
+        }
+    }
+}
+
+export type TryResponseType = {
+    data: {
+        token: string
+    };
+    status: number;
+    statusText: string;
+}
 
 
 export interface IBubbleProps {
@@ -43,3 +63,4 @@ export interface ValidationErrors {
 export interface BodyProps {
     children: ReactNode;
 }
+

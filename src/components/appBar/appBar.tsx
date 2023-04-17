@@ -12,12 +12,16 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import Logo from '../../../public/logo.png'
+import { Context } from '@/context/context';
+import { NextRouter, useRouter } from 'next/router';
 
 const pages = ['New',];
 const settings = ['Logout'];
 
 export default function ResponsiveAppBar() {
+
+    const { redirectTo } = React.useContext(Context)
+
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -35,6 +39,11 @@ export default function ResponsiveAppBar() {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+
+    const Logout = () => {
+        localStorage.clear()
+        redirectTo.push('/login')
+    }
 
     return (
         <AppBar position="absolute">
@@ -149,11 +158,9 @@ export default function ResponsiveAppBar() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
-                                </MenuItem>
-                            ))}
+                            <MenuItem key='sair' onClick={Logout}>
+                                <Typography textAlign="center">Sair</Typography>
+                            </MenuItem>
                         </Menu>
                     </Box>
                 </Toolbar>

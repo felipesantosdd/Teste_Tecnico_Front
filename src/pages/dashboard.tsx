@@ -1,11 +1,15 @@
 import ResponsiveAppBar from "@/components/appBar/appBar";
 import Body from "@/components/body/body";
+import { Provider } from "@/context/context";
 
 export default function Dashboard() {
 
     return (
-        <Body>
-            <ResponsiveAppBar />
-        </Body>
+        <Provider>
+            <Body>
+                <ResponsiveAppBar />
+            </Body>
+        </Provider>
+
     )
 }

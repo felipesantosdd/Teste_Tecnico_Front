@@ -2,12 +2,15 @@ import formStyle from '../../styles/form.module.scss'
 import { useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from 'yup';
-import React from 'react';
+import React, { useContext } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { Context } from '@/context/context';
+import { ILoginRequest } from '@/interfaces/interfaces';
 
 
 export default function Login() {
+    const { handleLogin, redirectTo } = useContext(Context)
 
     const formSchema = yup.object().shape({
         email: yup.string().email("E-mail inválido").required("E-mail obrigatório"),
@@ -22,8 +25,8 @@ export default function Login() {
         resolver: yupResolver(formSchema)
     });
 
-    function onSubmitFunction(data: any) {
-        console.log(data)
+    function onSubmitFunction(data: ILoginRequest | any) {
+        handleLogin(data)
     }
     return (
         <div className={formStyle.formContainer} onSubmit={handleSubmit(onSubmitFunction)}>
@@ -31,10 +34,13 @@ export default function Login() {
             <form className={formStyle.form} style={{ height: "300px" }} >
                 <h2 className={formStyle.title}>Login</h2>
                 <TextField variant="outlined" type="text" label='email' {...register("email")} />
-                {/* {errors?.email?.message && (<span className={formStyle.error}>{errors?.email?.message}</span>)} */}
+                {typeof errors?.email?.message === 'string' && (<span className={formStyle.error}>{errors?.email?.message}</span>)}
                 <TextField variant="outlined" type="password" label='password' {...register("password")} />
-                {/* {errors?.password?.message && (<span className={formStyle.error}>{errors?.password?.message}</span>)} */}
-                <Button variant="contained" type="submit">Enviar</Button>
+                {typeof errors?.password?.message === 'string' && (<span className={formStyle.error}>{errors?.password?.message}</span>)}
+                <Button variant="contained" type="submit">Iniciar sessão</Button>
+                <Button variant="contained" onClick={() => {
+                    redirectTo.push('/register')
+                }}>Criar nova conta</Button>
             </form>
         </div >
     )
