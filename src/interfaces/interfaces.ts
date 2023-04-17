@@ -6,6 +6,8 @@ export type ContextProps = {
     redirectTo: NextRouter;
     handleLogin(data: ILoginRequest): Promise<void>;
     handleRegister(data: ILoginRequest): Promise<void>;
+    handleResetPassword(email: string): Promise<void>;
+    ForgotPassword(): Promise<void>
 };
 
 export type ProviderType = {

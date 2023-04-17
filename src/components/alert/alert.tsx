@@ -1,3 +1,5 @@
+import { Context } from '@/context/context'
+import { useContext } from 'react'
 import Swal from 'sweetalert2'
 
 export function SuccessAlert(text: string) {
@@ -32,3 +34,4 @@ export function WarningAlert(text: string) {
         background: '#252525'
     })
 }
+
