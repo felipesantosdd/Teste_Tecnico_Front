@@ -6,8 +6,9 @@ export type ContextProps = {
     redirectTo: NextRouter;
     handleLogin(data: ILoginRequest): Promise<void>;
     handleRegister(data: ILoginRequest): Promise<void>;
-    handleResetPassword(email: string): Promise<void>;
-    ForgotPassword(): Promise<void>
+    handleSendEmailToResetPassword(email: string): Promise<void>;
+    ForgotPassword(): Promise<void>,
+    handleReset(token: string, password: string): Promise<void>
 };
 
 export type ProviderType = {
@@ -41,7 +42,6 @@ export type TryResponseType = {
     statusText: string;
 }
 
-
 export interface IBubbleProps {
     style: CSSProperties;
 }
@@ -65,4 +65,5 @@ export interface ValidationErrors {
 export interface BodyProps {
     children: ReactNode;
 }
+
 

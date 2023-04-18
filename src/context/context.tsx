@@ -5,6 +5,8 @@ import { useRouter } from "next/router";
 import { ErrorAlert, SuccessAlert, WarningAlert } from "@/components/alert/alert";
 import { RegisterRequest } from "@/pages/api/register";
 import Swal from "sweetalert2";
+import { sendEmailToResetRequest } from "@/pages/api/sendEmail";
+import { resetPasswordRequest } from "@/pages/api/reset";
 
 
 
@@ -47,15 +49,28 @@ export function Provider({ children }: ProviderType) {
         })
 
         if (email) {
-            handleResetPassword(email)
+            const data = { email: email }
+            handleSendEmailToResetPassword(data)
         }
+
+        console.log(email)
     }
 
 
-    async function handleResetPassword(email: string) {
+    async function handleSendEmailToResetPassword(email: any) {
         try {
-            console.log(email)
+            const response = await sendEmailToResetRequest(email)
             WarningAlert('Cheque sua caixa de entrada.')
+        } catch (error: CatchErrorType | any) {
+            ErrorAlert(error.response.data.message)
+        }
+    }
+
+    async function handleReset(token: any, password: string) {
+        try {
+            const response = await resetPasswordRequest(token.token, password)
+            SuccessAlert('Email Alterado')
+            redirectTo.push("/login")
         } catch (error: CatchErrorType | any) {
             ErrorAlert(error.response.data.message)
         }
@@ -66,8 +81,9 @@ export function Provider({ children }: ProviderType) {
             redirectTo,
             handleLogin,
             handleRegister,
-            handleResetPassword,
-            ForgotPassword
+            handleSendEmailToResetPassword,
+            ForgotPassword,
+            handleReset
         }}>
             {children}
         </Context.Provider>

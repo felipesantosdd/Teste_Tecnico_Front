@@ -33,5 +33,6 @@ export function WarningAlert(text: string) {
         color: 'white',
         background: '#252525'
     })
+
 }
 
