@@ -14,11 +14,44 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Context } from '@/context/context';
 import { NextRouter, useRouter } from 'next/router';
+import Swal from 'sweetalert2';
+import { getBalancesRequest } from '@/pages/api/newBalance';
 
 const pages = ['New',];
 const settings = ['Logout'];
 
 export default function ResponsiveAppBar() {
+
+    async function upload() {
+        const { value: file } = await Swal.fire({
+            title: 'Selecione o CSV',
+            input: 'file',
+            color: 'white',
+            background: '#252525',
+            inputAttributes: {
+                'accept': 'text/csv',
+                'aria-label': 'Upload your profile picture'
+            }
+        })
+
+        if (file) {
+            const reader = new FileReader()
+            reader.onload = (e: any) => {
+                Swal.fire({
+                    title: 'Your uploaded picture',
+                    imageUrl: e.target.result,
+                    imageAlt: 'The uploaded picture'
+                })
+            }
+            reader.readAsDataURL(file)
+            console.log(file)
+            const response = await getBalancesRequest(file)
+            console.log(response)
+            return response
+        }
+    }
+
+
 
     const { redirectTo } = React.useContext(Context)
 
@@ -121,19 +154,18 @@ export default function ResponsiveAppBar() {
                             textDecoration: 'none',
                         }}
                     >
-                        Felipe
-
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {pages.map((page) => (
-                            <Button
-                                key={page}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
-                            >
-                                {page}
-                            </Button>
-                        ))}
+                        <Button
+                            key='new'
+                            onClick={() => {
+                                handleCloseNavMenu
+                                upload()
+                            }}
+                            sx={{ my: 2, color: 'white', display: 'block' }}
+                        >
+                            Novo
+                        </Button>
                     </Box>
 
                     <Box sx={{ flexGrow: 0 }}>

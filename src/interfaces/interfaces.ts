@@ -8,7 +8,11 @@ export type ContextProps = {
     handleRegister(data: ILoginRequest): Promise<void>;
     handleSendEmailToResetPassword(email: string): Promise<void>;
     ForgotPassword(): Promise<void>,
-    handleReset(token: string, password: string): Promise<void>
+    handleReset(token: string, password: string): Promise<void>,
+    columns: any[],
+    rows: never[],
+    setRows: Dispatch<SetStateAction<never[]>>,
+    handleGetBalances(): Promise<any>
 };
 
 export type ProviderType = {

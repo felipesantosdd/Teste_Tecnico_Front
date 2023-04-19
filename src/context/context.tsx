@@ -7,6 +7,11 @@ import { RegisterRequest } from "@/pages/api/register";
 import Swal from "sweetalert2";
 import { sendEmailToResetRequest } from "@/pages/api/sendEmail";
 import { resetPasswordRequest } from "@/pages/api/reset";
+import { Button } from "@mui/material";
+import { GridDeleteIcon } from "@mui/x-data-grid";
+import { getBalancesRequest } from "@/pages/api/getBalances";
+import { deleteBalancesRequest } from "@/pages/api/delete";
+import React from "react";
 
 
 
@@ -16,13 +21,46 @@ export function Provider({ children }: ProviderType) {
 
     const redirectTo = useRouter()
 
+
+    const columns: any[] = [
+        { field: 'document', headerName: 'Document', width: 200 },
+        {
+            field: 'date',
+            headerName: 'Data',
+            type: 'number',
+            width: 200,
+        },
+        {
+            field: 'value',
+            headerName: 'Valor',
+            type: 'number',
+            width: 200,
+        },
+        {
+            field: 'id',
+            headerName: '',
+            width: 190,
+            renderCell: (params: any) => (
+                <Button style={{ margin: 'auto' }} variant="contained" onClick={() => handleDelete(params.value)}>
+                    <GridDeleteIcon />
+                </Button>
+            ),
+        },
+
+    ];
+
+    const [rows, setRows] = useState([])
+
     async function handleLogin(data: ILoginRequest) {
         try {
             const response: TryResponseType = await loginRequest(data)
             localStorage.setItem('token', response.data.token)
+            const rows = await handleGetBalances()
             redirectTo.push('/dashboard')
+
         } catch (error: CatchErrorType | any) {
             ErrorAlert(error.response.data.message)
+
         }
     }
 
@@ -33,6 +71,16 @@ export function Provider({ children }: ProviderType) {
             redirectTo.push('/login')
         } catch (error: CatchErrorType | any) {
             ErrorAlert(error.response.data.message)
+        }
+    }
+
+    async function handleGetBalances() {
+        try {
+            const response = await getBalancesRequest()
+            setRows(response.data)
+            return response.data
+        } catch (error) {
+            console.error(error)
         }
     }
 
@@ -52,12 +100,10 @@ export function Provider({ children }: ProviderType) {
             const data = { email: email }
             handleSendEmailToResetPassword(data)
         }
-
-        console.log(email)
     }
 
 
-    async function handleSendEmailToResetPassword(email: any) {
+    async function handleSendEmailToResetPassword(email: string) {
         try {
             const response = await sendEmailToResetRequest(email)
             WarningAlert('Cheque sua caixa de entrada.')
@@ -69,12 +115,23 @@ export function Provider({ children }: ProviderType) {
     async function handleReset(token: any, password: string) {
         try {
             const response = await resetPasswordRequest(token.token, password)
-            SuccessAlert('Email Alterado')
+            SuccessAlert('Password Alterado')
             redirectTo.push("/login")
         } catch (error: CatchErrorType | any) {
             ErrorAlert(error.response.data.message)
         }
     }
+
+    async function handleDelete(id: string) {
+        try {
+            const response = await deleteBalancesRequest(id)
+            await handleGetBalances()
+            return response
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
 
     return (
         <Context.Provider value={{
@@ -83,7 +140,11 @@ export function Provider({ children }: ProviderType) {
             handleRegister,
             handleSendEmailToResetPassword,
             ForgotPassword,
-            handleReset
+            handleReset,
+            columns,
+            rows,
+            setRows,
+            handleGetBalances,
         }}>
             {children}
         </Context.Provider>
