@@ -8,11 +8,11 @@ export async function newBalancesRequest(file: any) {
     form.append('file', file);
 
     const response = await api
-        .post('/balances/import', {
+        .post('/balances/import', form, {
             headers: {
                 'Authorization': `Bearer ${token}`
-            },
-            data: file
+            }
+
         })
         .then((response: any) => {
             return response

@@ -12,6 +12,7 @@ import { GridDeleteIcon } from "@mui/x-data-grid";
 import { getBalancesRequest } from "@/pages/api/getBalances";
 import { deleteBalancesRequest } from "@/pages/api/delete";
 import React from "react";
+import { newBalancesRequest } from "@/pages/api/newBalance";
 
 
 
@@ -83,6 +84,17 @@ export function Provider({ children }: ProviderType) {
             console.error(error)
         }
     }
+    async function handleNewBalances(file: any) {
+        try {
+            const response = await newBalancesRequest(file)
+            SuccessAlert("Seu Arquivo Foi Carregado com sucesso!")
+            return response.data
+            await handleGetBalances()
+        } catch (error) {
+            ErrorAlert("Algo deu errado...")
+            console.error(error)
+        }
+    }
 
     async function ForgotPassword() {
 
@@ -132,6 +144,10 @@ export function Provider({ children }: ProviderType) {
         }
     }
 
+    useEffect(() => {
+        handleGetBalances()
+    }, [rows])
+
 
     return (
         <Context.Provider value={{
@@ -145,6 +161,7 @@ export function Provider({ children }: ProviderType) {
             rows,
             setRows,
             handleGetBalances,
+            handleNewBalances
         }}>
             {children}
         </Context.Provider>

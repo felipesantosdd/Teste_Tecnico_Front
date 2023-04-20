@@ -12,7 +12,8 @@ export type ContextProps = {
     columns: any[],
     rows: never[],
     setRows: Dispatch<SetStateAction<never[]>>,
-    handleGetBalances(): Promise<any>
+    handleGetBalances(): Promise<any>,
+    handleNewBalances(file: any): Promise<any>
 };
 
 export type ProviderType = {

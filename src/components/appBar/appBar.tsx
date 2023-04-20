@@ -15,12 +15,14 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { Context } from '@/context/context';
 import { NextRouter, useRouter } from 'next/router';
 import Swal from 'sweetalert2';
-import { getBalancesRequest } from '@/pages/api/newBalance';
+import { newBalancesRequest } from '@/pages/api/newBalance';
 
 const pages = ['New',];
 const settings = ['Logout'];
 
 export default function ResponsiveAppBar() {
+
+    const { handleNewBalances } = React.useContext(Context)
 
     async function upload() {
         const { value: file } = await Swal.fire({
@@ -43,11 +45,8 @@ export default function ResponsiveAppBar() {
                     imageAlt: 'The uploaded picture'
                 })
             }
-            reader.readAsDataURL(file)
-            console.log(file)
-            const response = await getBalancesRequest(file)
-            console.log(response)
-            return response
+            handleNewBalances(file)
+
         }
     }
 
