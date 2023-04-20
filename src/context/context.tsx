@@ -128,7 +128,7 @@ export function Provider({ children }: ProviderType) {
         })
 
         if (email) {
-            const data = { email: email }
+            const data: any = { email: email }
             handleSendEmailToResetPassword(data)
         }
     }
