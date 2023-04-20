@@ -22,6 +22,20 @@ export function Provider({ children }: ProviderType) {
 
     const redirectTo = useRouter()
 
+    const [showModal, setShowModal] = useState(false);
+
+
+
+
+    const [open, setOpen] = React.useState(true);
+    const handleClose = () => {
+        setShowModal(false);
+    };
+    const handleOpen = () => {
+        setShowModal(true);
+    };
+
+
 
     const columns: any[] = [
         { field: 'document', headerName: 'Document', width: 200 },
@@ -54,24 +68,29 @@ export function Provider({ children }: ProviderType) {
 
     async function handleLogin(data: ILoginRequest) {
         try {
+            handleOpen()
             const response: TryResponseType = await loginRequest(data)
             localStorage.setItem('token', response.data.token)
             const rows = await handleGetBalances()
             redirectTo.push('/dashboard')
-
+            handleClose()
         } catch (error: CatchErrorType | any) {
             ErrorAlert(error.response.data.message)
+            handleClose()
 
         }
     }
 
     async function handleRegister(data: ILoginRequest) {
         try {
+            handleOpen()
             const response: any = await RegisterRequest(data)
             SuccessAlert('Cadastro concluído!')
             redirectTo.push('/login')
+            handleClose()
         } catch (error: CatchErrorType | any) {
             ErrorAlert(error.response.data.message)
+            handleClose()
         }
     }
 
@@ -144,6 +163,7 @@ export function Provider({ children }: ProviderType) {
         }
     }
 
+
     useEffect(() => {
         handleGetBalances()
     }, [rows])
@@ -161,7 +181,12 @@ export function Provider({ children }: ProviderType) {
             rows,
             setRows,
             handleGetBalances,
-            handleNewBalances
+            handleNewBalances,
+            open,
+            setOpen,
+            handleClose,
+            handleOpen,
+            showModal
         }}>
             {children}
         </Context.Provider>

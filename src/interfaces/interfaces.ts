@@ -13,7 +13,12 @@ export type ContextProps = {
     rows: never[],
     setRows: Dispatch<SetStateAction<never[]>>,
     handleGetBalances(): Promise<any>,
-    handleNewBalances(file: any): Promise<any>
+    handleNewBalances(file: any): Promise<any>,
+    open: boolean,
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>,
+    handleClose: () => void,
+    handleOpen: () => void,
+    showModal: boolean
 };
 
 export type ProviderType = {

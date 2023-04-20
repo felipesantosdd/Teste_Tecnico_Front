@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 import { Context } from '@/context/context';
 import { ILoginRequest } from '@/interfaces/interfaces';
 import Link from 'next/link';
+import SimpleBackdrop from '../backdrop/backdrop';
 
 
 export default function Login() {
@@ -41,6 +42,7 @@ export default function Login() {
                 <a onClick={() => { ForgotPassword() }}>Esqueceu a senha?</a>
                 <Button variant="contained" type="submit">Iniciar sessão</Button>
                 <Button variant="contained" onClick={() => {
+                    <SimpleBackdrop />
                     redirectTo.push('/register')
                 }}>Criar nova conta</Button>
             </form>
